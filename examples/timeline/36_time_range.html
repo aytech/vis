@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Timeline | Moveable range</title>
+
+  <style type="text/css">
+    body, html {
+      font-family: sans-serif;
+      font-size: 11pt;
+    }
+  </style>
+
+  <script src="../../dist/vis.js"></script>
+  <link href="../../dist/vis.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<p>
+  <code><strong>Range start (timechange event)</strong></code> <span id="rangeStart"></span>
+</p>
+<p>
+  <code><strong>Range end (timechange event)</strong></code> <span id="rangeEnd"></span>
+</p><br>
+
+<div id="visualization"></div>
+
+<script type="text/javascript">
+  var container = document.getElementById('visualization');
+  var items = new vis.DataSet();
+  var customDate = new Date();
+  var options = {
+    showCurrentTime: true,
+    showCustomTime: true,
+    start: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    end: new Date(Date.now() + 1000 * 60 * 60 * 24 * 6)
+  };
+  var timeline = new vis.Timeline(container, items, options);
+
+  // Set time range
+  customDate = new Date(customDate.getFullYear(), customDate.getMonth(), customDate.getDate() + 3);
+  timeline.setTimeRange(new Date(), customDate);
+
+  timeline.on('timechange', function (properties) {
+    if (properties.id === 'rangeStart') {
+      document.getElementById('rangeStart').innerHTML = properties.time;
+    }
+
+    if (properties.id === 'rangeEnd') {
+      document.getElementById('rangeEnd').innerHTML = properties.time;
+    }
+  });
+
+</script>
+</body>
+</html>
